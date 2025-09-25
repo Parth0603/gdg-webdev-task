@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/gdg-aitr-experimental', {
+mongoose.connect('mongodb+srv://parth111nagar_db_user:Parth6306@gdg-database.2gqibxi.mongodb.net/?retryWrites=true&w=majority&appName=gdg-database', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
