@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDG AITR - Admin Dashboard</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
     <nav class="navbar">
@@ -63,6 +64,7 @@
         <div class="admin-controls">
             <button onclick="loadRegistrations()" class="btn btn-register">Refresh Data</button>
             <button onclick="exportData()" class="btn btn-export">Download CSV</button>
+            <button onclick="confirmClearData()" class="btn btn-reset">Clear All Data</button>
         </div>
 
         <div class="stats">
@@ -82,14 +84,32 @@
                         <th>Year</th>
                         <th>Branch</th>
                         <th>Registered At</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="registrations-body">
                     <tr>
-                        <td colspan="6" class="loading">Loading registrations...</td>
+                        <td colspan="7" class="loading">Loading registrations...</td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <!-- Custom Popup Modal -->
+    <div id="popup-overlay" class="popup-overlay" style="display: none;">
+        <div id="popup-modal" class="popup-modal">
+            <div class="popup-header">
+                <h3 id="popup-title">Confirmation</h3>
+            </div>
+            <div class="popup-content">
+                <p id="popup-message">Are you sure?</p>
+                <input type="text" id="popup-input" placeholder="Type confirmation text" style="display: none;">
+            </div>
+            <div class="popup-actions">
+                <button id="popup-cancel" class="btn btn-reset">Cancel</button>
+                <button id="popup-confirm" class="btn btn-register">Confirm</button>
+            </div>
         </div>
     </div>
 

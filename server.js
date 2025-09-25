@@ -173,6 +173,53 @@ app.get('/api/export', async (req, res) => {
   }
 });
 
+app.delete('/api/clear-data', async (req, res) => {
+  try {
+    const result = await Registration.deleteMany({});
+    console.log(`🗑️ Admin cleared all data: ${result.deletedCount} registrations deleted`);
+    res.json({ 
+      success: true, 
+      message: `Successfully deleted ${result.deletedCount} registrations` 
+    });
+  } catch (error) {
+    console.error('Clear data error:', error);
+    res.status(500).json({ error: 'Failed to clear data' });
+  }
+});
+
+app.delete('/api/delete-user/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedUser = await Registration.findByIdAndDelete(id);
+    
+    if (!deletedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    console.log(`🗑️ Admin deleted user: ${deletedUser.name} (${deletedUser.email})`);
+    res.json({ 
+      success: true, 
+      message: `Successfully deleted ${deletedUser.name}` 
+    });
+  } catch (error) {
+    console.error('Delete user error:', error);
+    res.status(500).json({ error: 'Failed to delete user' });
+  }
+});
+
+// Keep-alive endpoint
+app.get('/api/ping', (req, res) => {
+  res.json({ status: 'alive', timestamp: new Date().toISOString() });
+});
+
+// Self-ping to prevent sleeping (only in production)
+if (process.env.NODE_ENV === 'production') {
+  setInterval(() => {
+    fetch(`${process.env.RENDER_EXTERNAL_URL || 'http://localhost:3000'}/api/ping`)
+      .catch(() => {}); // Ignore errors
+  }, 14 * 60 * 1000); // Ping every 14 minutes
+}
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
