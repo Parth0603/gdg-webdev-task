@@ -14,9 +14,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB Connection
+if (!process.env.MONGODB_URI) {
+  console.error('❌ MONGODB_URI environment variable is not set');
+}
+
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000
+}).catch(err => {
+  console.error('❌ MongoDB connection failed:', err);
 });
 
 mongoose.connection.on('connected', () => {
@@ -65,6 +72,12 @@ app.get('/registered', (req, res) => {
 
 // Registration endpoint
 app.post('/register', async (req, res) => {
+  console.log('Registration attempt:', req.body);
+  
+  if (mongoose.connection.readyState !== 1) {
+    return res.status(500).json({ error: 'Database connection not ready' });
+  }
+  
   try {
     const { 
       name, gender, email, phone, enrollment, college, otherCollege,
