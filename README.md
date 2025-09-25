@@ -33,6 +33,9 @@ A full-stack event registration system for GDG AITR club activities with student
 - `POST /register` - Submit registration
 - `GET /api/registrations` - Get all registrations
 - `GET /api/export` - Download CSV export
+- `DELETE /api/clear-data` - Clear all registration data (admin only)
+- `DELETE /api/delete-user/:id` - Delete specific user (admin only)
+- `GET /api/ping` - Keep-alive endpoint for Render deployment
 - `GET /` - Registration form
 - `GET /admin` - Admin dashboard
 - `GET /registered` - Success page
@@ -62,10 +65,17 @@ gdg-aitr-registration/
     └── admin.js            # Admin dashboard functionality
 ```
 
+## Deployment Features
+
+- **Keep-Alive System**: Automatic self-ping every 14 minutes to prevent Render free tier from sleeping
+- **Environment Variables**: Secure MongoDB connection using environment variables
+- **Admin Management**: Complete CRUD operations for registration data
+
 ## Troubleshooting
 
 - **MongoDB Error**: Ensure MongoDB is running on port 27017
 - **Port in Use**: Change port in server.js or stop conflicting services
 - **Admin Access**: Use exact password 'gdg-admin'
+- **Render Sleeping**: Keep-alive endpoint prevents automatic sleep on free tier
 
 Built for GDG AITR club event management.
