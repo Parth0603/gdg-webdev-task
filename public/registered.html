@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful - GDG AITR</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images.png" alt="GDG AITR Logo" style="height: 40px; margin-right: 10px;">
+                <span>GDG AITR</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Register</a>
+                <a href="/admin" class="nav-link">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Registration Successful!</h1>
+            <p>Welcome to GDG AITR Event</p>
+        </div>
+
+        <div class="success-card">
+            <div class="success-content">
+                <span class="checkmark">✅</span>
+                <h2>You're All Set!</h2>
+                <p class="email-confirmation">Confirmation sent to: <strong><span id="registered-email"></span></strong></p>
+                
+                <div class="next-steps">
+                    <h4>What's Next?</h4>
+                    <ul>
+                        <li>📧 Check your email for event details</li>
+                        <li>📅 Add the event to your calendar</li>
+                        <li>💬 Join our WhatsApp group for updates</li>
+                        <li>📷 <a href="https://www.instagram.com/gdgoc.aitr/" target="_blank" style="color: #4285f4;">Follow us on Instagram</a></li>
+                    </ul>
+                </div>
+
+                <div class="button-group">
+                    <a href="/" class="btn btn-register">Register Another</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get email from URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email');
+        if (email) {
+            document.getElementById('registered-email').textContent = email;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDG AITR - Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images.png" alt="GDG AITR Logo" style="height: 40px; margin-right: 10px;">
+                <span>GDG AITR</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Register</a>
+                <a href="/admin" class="nav-link active">Admin</a>
+                <button id="logout-btn" class="btn btn-reset" style="display: none;" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div id="login-container" class="container">
+        <div class="header">
+            <h1>Admin Login</h1>
+            <div class="gdg-colors">
+                <span class="color-dot red"></span>
+                <span class="color-dot yellow"></span>
+                <span class="color-dot green"></span>
+                <span class="color-dot blue"></span>
+            </div>
+        </div>
+        <div class="form-container">
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="gdg-admin">
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="btn btn-register">Login</button>
+                </div>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p>Need admin access? <a href="/register-admin" style="color: #4285f4;">Register as Team Admin</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-container" class="container" style="display: none;">
+        <div class="header">
+            <h1>GDG AITR - Admin Dashboard</h1>
+            <div class="gdg-colors">
+                <span class="color-dot red"></span>
+                <span class="color-dot yellow"></span>
+                <span class="color-dot green"></span>
+                <span class="color-dot blue"></span>
+            </div>
+        </div>
+
+        <div class="admin-controls">
+            <button onclick="loadRegistrations()" class="btn btn-register">Refresh Data</button>
+            <button onclick="exportData()" class="btn btn-export">Download CSV</button>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Registrations</h3>
+                <span id="total-count">0</span>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="registrations-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Year</th>
+                        <th>Branch</th>
+                        <th>Registered At</th>
+                    </tr>
+                </thead>
+                <tbody id="registrations-body">
+                    <tr>
+                        <td colspan="6" class="loading">Loading registrations...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Registration - GDG AITR</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-reg-body">
+    <!-- Background Elements -->
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="floating-icons">
+            <i class="fab fa-google floating-icon icon-1"></i>
+            <i class="fas fa-code floating-icon icon-2"></i>
+            <i class="fas fa-users floating-icon icon-3"></i>
+            <i class="fas fa-rocket floating-icon icon-4"></i>
+        </div>
+    </div>
+
+    <nav class="navbar modern-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fab fa-google"></i>
+                <span>GDG AITR</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link"><i class="fas fa-user-plus"></i> Register</a>
+                <a href="/admin" class="nav-link"><i class="fas fa-shield-alt"></i> Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="admin-card">
+            <!-- Header Section -->
+            <div class="admin-header">
+                <div class="badge-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1>Admin Registration</h1>
+                <p class="subtitle">Join the GDG AITR Leadership Team</p>
+                <div class="gdg-colors-modern">
+                    <span class="color-dot red"></span>
+                    <span class="color-dot yellow"></span>
+                    <span class="color-dot green"></span>
+                    <span class="color-dot blue"></span>
+                </div>
+            </div>
+
+            <!-- Hand-drawn divider -->
+            <div class="hand-drawn-divider">
+                <svg viewBox="0 0 300 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5,10 Q50,5 100,12 T200,8 T290,15" stroke="#4285f4" stroke-width="2" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <!-- Form Section -->
+            <div class="admin-form-container">
+                <div class="security-notice">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Badge ID required from GDG President for security</span>
+                </div>
+
+                <form id="adminRegForm" class="admin-form">
+                    <div class="form-row">
+                        <div class="form-group badge-group">
+                            <label for="badgeId">
+                                <i class="fas fa-id-badge"></i>
+                                GDG Badge ID *
+                            </label>
+                            <input type="text" id="badgeId" name="badgeId" required 
+                                   placeholder="e.g., GDG-PRES-2024" class="badge-input">
+                            <div class="input-hint">Contact GDG President for your badge ID</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="username">
+                                <i class="fas fa-user"></i>
+                                Username *
+                            </label>
+                            <input type="text" id="username" name="username" required minlength="3" 
+                                   placeholder="Choose a unique username">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">
+                                <i class="fas fa-envelope"></i>
+                                Email Address *
+                            </label>
+                            <input type="email" id="email" name="email" required 
+                                   placeholder="your.email@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">
+                                <i class="fas fa-lock"></i>
+                                Password *
+                            </label>
+                            <input type="password" id="password" name="password" required minlength="6" 
+                                   placeholder="Minimum 6 characters">
+                            <div class="password-strength"></div>
+                        </div>
+                    </div>
+
+                    <div class="button-group-modern">
+                        <button type="submit" class="btn-modern btn-primary">
+                            <i class="fas fa-user-shield"></i>
+                            Register as Admin
+                        </button>
+                        <button type="reset" class="btn-modern btn-secondary">
+                            <i class="fas fa-redo"></i>
+                            Reset Form
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Footer -->
+            <div class="admin-footer">
+                <div class="hand-drawn-arrow">
+                    <svg viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10,15 Q30,10 50,15 Q70,20 85,15" stroke="#34a853" stroke-width="2" fill="none"/>
+                        <path d="M80,10 L85,15 L80,20" stroke="#34a853" stroke-width="2" fill="none"/>
+                    </svg>
+                </div>
+                <p>Secure registration for GDG AITR team members</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password strength indicator
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthBar = document.querySelector('.password-strength');
+            let strength = 0;
+            
+            if (password.length >= 6) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/\d/)) strength++;
+            if (password.match(/[^a-zA-Z\d]/)) strength++;
+            
+            strengthBar.className = 'password-strength strength-' + strength;
+        });
+
+        document.getElementById('adminRegForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            console.log('Form data being sent:', data);
+            
+            try {
+                const response = await fetch('/admin/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('Admin registered successfully!');
+                    this.reset();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Registration failed');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GDG AITR Event Registration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images.png" alt="GDG AITR Logo" style="height: 40px; margin-right: 10px;">
+                <span>GDG AITR</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Register</a>
+                <a href="/admin" class="nav-link">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>GDG AITR Event Registration</h1>
+            <p>Join us for an exciting tech event!</p>
+        </div>
+
+        <div id="registration-form" class="form-container">
+            <form id="regForm">
+                <div class="form-section">
+                    <h3>Personal Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" name="name" required minlength="3" placeholder="Enter your full name">
+                            <span class="error" id="name-error"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">Gender *</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="error" id="gender-error"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                        <span class="error" id="email-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number">
+                        <span class="error" id="phone-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Academic Information</h3>
+                    
+                    <div class="form-group">
+                        <label for="enrollment">Enrollment Number *</label>
+                        <input type="text" id="enrollment" name="enrollment" required minlength="8" maxlength="15" placeholder="Enter your enrollment number">
+                        <span class="error" id="enrollment-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="college">College/University *</label>
+                        <select id="college" name="college" required>
+                            <option value="">Select College</option>
+                            <option value="AITR">AITR (Acropolis Institute of Technology and Research)</option>
+                            <option value="Other">Other College</option>
+                        </select>
+                        <span class="error" id="college-error"></span>
+                    </div>
+
+                    <div id="other-college-group" class="form-group" style="display: none;">
+                        <label for="otherCollege">Specify College Name *</label>
+                        <input type="text" id="otherCollege" name="otherCollege" placeholder="Enter your college name">
+                        <span class="error" id="other-college-error"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="year">Current Year *</label>
+                            <select id="year" name="year" required>
+                                <option value="">Select Year</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                                <option value="Graduate">Graduate</option>
+                            </select>
+                            <span class="error" id="year-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="branch">Branch/Stream *</label>
+                            <select id="branch" name="branch" required>
+                                <option value="">Select Branch</option>
+                                <option value="CSE">Computer Science Engineering</option>
+                                <option value="IT">Information Technology</option>
+                                <option value="ECE">Electronics & Communication</option>
+                                <option value="EE">Electrical Engineering</option>
+                                <option value="ME">Mechanical Engineering</option>
+                                <option value="CE">Civil Engineering</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span class="error" id="branch-error"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Event Preferences</h3>
+                    
+                    <div class="form-group">
+                        <label for="experience">Programming Experience *</label>
+                        <select id="experience" name="experience" required>
+                            <option value="">Select Experience Level</option>
+                            <option value="Beginner">Beginner (0-1 years)</option>
+                            <option value="Intermediate">Intermediate (1-3 years)</option>
+                            <option value="Advanced">Advanced (3+ years)</option>
+                        </select>
+                        <span class="error" id="experience-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interests">Areas of Interest (Select multiple)</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="Web Development"> Web Development
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="Mobile Development"> Mobile Development
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="AI/ML"> Artificial Intelligence/Machine Learning
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="Cloud Computing"> Cloud Computing
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="Data Science"> Data Science
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="interests" value="Cybersecurity"> Cybersecurity
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expectations">What do you expect from this event?</label>
+                        <textarea id="expectations" name="expectations" rows="3" placeholder="Share your expectations (optional)"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-register">Register Now</button>
+                        <button type="reset" class="btn btn-reset">Reset Form</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div id="success-message" class="success-card" style="display: none;">
+            <div class="success-content">
+                <span class="checkmark">✅</span>
+                <h2>Registration Successful!</h2>
+                <p>Thank you for registering for GDG AITR event.</p>
+                <p class="email-confirmation">Confirmation sent to: <strong><span id="registered-email"></span></strong></p>
+                <div class="next-steps">
+                    <h4>What's Next?</h4>
+                    <ul>
+                        <li>📧 Check your email for event details</li>
+                        <li>📅 Add the event to your calendar</li>
+                        <li>💬 Join our WhatsApp group for updates</li>
+                    </ul>
+                </div>
+                <button onclick="showForm()" class="btn btn-register">Register Another</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
