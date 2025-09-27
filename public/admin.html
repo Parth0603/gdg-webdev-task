@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDG AITR - Admin Dashboard</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="admin-styles.css">
 </head>
@@ -14,9 +15,13 @@
                 <img src="images.png" alt="GDG AITR Logo" style="height: 40px; margin-right: 10px;">
                 <span>GDG AITR</span>
             </div>
-            <div class="nav-links">
+            <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <div class="nav-links" id="navLinks">
                 <a href="/" class="nav-link">Register</a>
                 <a href="/admin" class="nav-link active">Admin</a>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" id="darkModeToggle">🌙</button>
                 <button id="logout-btn" class="btn btn-reset" style="display: none;" onclick="logout()">Logout</button>
             </div>
         </div>
@@ -50,49 +55,147 @@
     </div>
 
     <!-- Admin Dashboard -->
-    <div id="admin-container" class="container" style="display: none;">
-        <div class="header">
+    <div id="admin-container" class="admin-dashboard" style="display: none;">
+        <div class="dashboard-header">
             <h1>GDG AITR - Admin Dashboard</h1>
-            <div class="gdg-colors">
-                <span class="color-dot red"></span>
-                <span class="color-dot yellow"></span>
-                <span class="color-dot green"></span>
-                <span class="color-dot blue"></span>
+            <div class="header-actions">
+                <button onclick="toggleRegistration()" id="toggle-registration-btn" class="status-btn">Stop Registration</button>
+                <button onclick="logout()" class="logout-btn">Logout</button>
             </div>
         </div>
 
-        <div class="admin-controls">
-            <button onclick="loadRegistrations()" class="btn btn-register">Refresh Data</button>
-            <button onclick="exportData()" class="btn btn-export">Download CSV</button>
-            <button onclick="confirmClearData()" class="btn btn-reset">Clear All Data</button>
+        <div class="dashboard-tabs">
+            <button class="tab-btn active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab-btn" onclick="showTab('events')">🎉 Events</button>
+            <button class="tab-btn" onclick="showTab('registrations')">👥 Registrations</button>
+            <button class="tab-btn" onclick="showTab('settings')">⚙️ Settings</button>
         </div>
 
-        <div class="stats">
-            <div class="stat-card">
-                <h3>Total Registrations</h3>
-                <span id="total-count">0</span>
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content active">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3>Total Registrations</h3>
+                        <span id="total-count">0</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎉</div>
+                    <div class="stat-info">
+                        <h3>Current Event</h3>
+                        <span id="current-event-name">No Event</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-info">
+                        <h3>Event Date</h3>
+                        <span id="current-event-date">Not Set</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="table-container">
-            <table id="registrations-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Year</th>
-                        <th>Branch</th>
-                        <th>Registered At</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="registrations-body">
-                    <tr>
-                        <td colspan="7" class="loading">Loading registrations...</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Events Tab -->
+        <div id="events-tab" class="tab-content">
+            <div class="tab-header">
+                <h2>Event Management</h2>
+                <div class="tab-actions">
+                    <button onclick="showEventManager()" class="btn btn-primary">+ Create/Edit Event</button>
+                    <button onclick="confirmDeleteEvent()" id="delete-event-btn" class="btn btn-danger" style="display: none;">🗑️ Delete Event</button>
+                </div>
+            </div>
+            <div id="current-event-display" class="event-display">
+                <div class="event-card">
+                    <h3 id="display-event-title">No Event Created</h3>
+                    <p id="display-event-description">Create an event to get started</p>
+                    <div class="event-meta">
+                        <span id="display-event-date">📅 Date not set</span>
+                        <span id="display-event-location">📍 Location not set</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registrations Tab -->
+        <div id="registrations-tab" class="tab-content">
+            <div class="tab-header">
+                <h2>Registration Management</h2>
+                <div class="tab-actions">
+                    <button onclick="loadRegistrations()" class="btn btn-secondary">🔄 Refresh</button>
+                    <button onclick="exportData()" class="btn btn-primary">📥 Export CSV</button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="registrations-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Year</th>
+                            <th>Branch</th>
+                            <th>Event</th>
+                            <th>Registered At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrations-body">
+                        <tr>
+                            <td colspan="8" class="loading">Loading registrations...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settings-tab" class="tab-content">
+            <div class="tab-header">
+                <h2>Settings</h2>
+            </div>
+            <div class="settings-grid">
+                <div class="setting-card danger">
+                    <h3>⚠️ Danger Zone</h3>
+                    <p>Permanently delete all registration data</p>
+                    <button onclick="confirmClearData()" class="btn btn-danger">Clear All Data</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Management Modal -->
+    <div id="event-modal" class="popup-overlay" style="display: none;">
+        <div class="popup-modal" style="max-width: 600px;">
+            <div class="popup-header">
+                <h3>Manage Event</h3>
+            </div>
+            <div class="popup-content">
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label for="eventTitle">Event Title *</label>
+                        <input type="text" id="eventTitle" required placeholder="Enter event title">
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDescription">Event Description *</label>
+                        <textarea id="eventDescription" required rows="3" placeholder="Enter event description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDate">Event Date *</label>
+                        <input type="datetime-local" id="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventLocation">Event Location *</label>
+                        <input type="text" id="eventLocation" required placeholder="Enter event location">
+                    </div>
+                </form>
+            </div>
+            <div class="popup-actions">
+                <button onclick="closeEventModal()" class="btn btn-reset">Cancel</button>
+                <button onclick="saveEvent()" class="btn btn-register">Save Event</button>
+            </div>
         </div>
     </div>
 

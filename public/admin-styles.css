@@ -111,6 +111,61 @@
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.modern-nav .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #1e293b;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.modern-nav .nav-toggle:hover {
+    background-color: rgba(66, 133, 244, 0.1);
+}
+
+@media (max-width: 768px) {
+    .modern-nav .nav-toggle {
+        display: block;
+    }
+    
+    .modern-nav .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        flex-direction: column;
+        padding: 15px;
+        gap: 5px;
+        transform: translateY(-10px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        border-radius: 0 0 8px 8px;
+        z-index: 1001;
+    }
+    
+    .modern-nav .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .modern-nav .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 12px 16px;
+        border-radius: 6px;
+        margin: 2px 0;
+    }
+}
+
 .modern-nav .nav-logo {
     display: flex;
     align-items: center;
@@ -367,34 +422,176 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .admin-container {
+        padding: 15px;
+    }
+    
+    .admin-card {
+        max-width: 600px;
+    }
+}
+
 @media (max-width: 768px) {
     .admin-container {
         padding: 10px;
+        margin-top: 70px;
     }
     
     .admin-card {
         margin: 0;
         border-radius: 15px;
+        max-width: none;
     }
     
     .admin-header {
-        padding: 30px 20px;
+        padding: 25px 15px;
     }
     
     .admin-header h1 {
+        font-size: 1.4rem;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+    }
+    
+    .badge-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+    
+    .badge-icon i {
         font-size: 1.5rem;
     }
     
     .admin-form-container {
-        padding: 20px;
+        padding: 20px 15px;
+    }
+    
+    .security-notice {
+        padding: 12px;
+        font-size: 0.8rem;
+    }
+    
+    .admin-form input {
+        padding: 12px 16px;
+        font-size: 16px; /* Prevents zoom on iOS */
     }
     
     .button-group-modern {
         flex-direction: column;
+        gap: 12px;
+    }
+    
+    .btn-modern {
+        padding: 14px 18px;
+        font-size: 16px;
     }
     
     .admin-footer {
-        padding: 20px;
+        padding: 15px;
+    }
+    
+    .admin-footer p {
+        font-size: 0.8rem;
+    }
+    
+    .popup-modal {
+        width: 95%;
+        margin: 10px;
+    }
+    
+    .popup-content {
+        padding: 20px 15px;
+    }
+    
+    .popup-actions {
+        padding: 15px;
+        flex-direction: column;
+    }
+    
+    .popup-actions .btn {
+        width: 100%;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    body.admin-reg-body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+    
+    .admin-container {
+        padding: 0;
+        margin: 0;
+        width: 100vw;
+        min-height: 100vh;
+    }
+    
+    .admin-card {
+        border-radius: 0;
+        margin: 0;
+        width: 100vw;
+        min-height: 100vh;
+        box-shadow: none;
+    }
+    
+    .admin-header {
+        padding: 20px 15px;
+    }
+    
+    .admin-header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .admin-form-container {
+        padding: 20px 15px;
+    }
+    
+    .admin-form input {
+        padding: 14px 12px;
+        width: 100%;
+    }
+    
+    .btn-modern {
+        padding: 14px 16px;
+        font-size: 16px;
+        width: 100%;
+    }
+    
+    .badge-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .badge-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .gdg-colors-modern .color-dot {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    .btn-modern {
+        min-height: 44px;
+        padding: 14px 20px;
+    }
+    
+    .admin-form input {
+        min-height: 44px;
+    }
+    
+    .popup-actions .btn {
+        min-height: 44px;
+        padding: 12px 20px;
     }
 }
 

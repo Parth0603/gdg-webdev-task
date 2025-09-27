@@ -64,7 +64,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.ok) {
                 window.location.href = `/registered?email=${encodeURIComponent(data.email)}`;
             } else {
-                showError(result.error || 'Registration failed');
+                if (response.status === 403) {
+                    showRegistrationClosed();
+                } else {
+                    showError(result.error || 'Registration failed');
+                }
             }
         } catch (error) {
             showError('Network error. Please try again.');
@@ -240,3 +244,125 @@ function addRealTimeValidation() {
         });
     });
 }
+
+function showRegistrationClosed() {
+    document.getElementById('registration-form').style.display = 'none';
+    
+    const closedMessage = document.createElement('div');
+    closedMessage.className = 'registration-closed';
+    closedMessage.innerHTML = `
+        <div class="closed-content">
+            <span class="closed-icon">🚫</span>
+            <h2>Registration Closed</h2>
+            <p>Sorry, registration for this event has been closed.</p>
+            <p>Please check back later or contact the organizers for more information.</p>
+        </div>
+    `;
+    
+    closedMessage.style.cssText = `
+        padding: 60px 40px;
+        text-align: center;
+        background: #fef2f2;
+        border: 2px solid #fecaca;
+        border-radius: 12px;
+        margin: 20px;
+    `;
+    
+    const container = document.querySelector('.container');
+    container.appendChild(closedMessage);
+}
+
+// Mobile Navigation Toggle
+function toggleMobileNav() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+}
+
+// Close mobile nav when clicking outside
+document.addEventListener('click', function(e) {
+    const navContainer = document.querySelector('.nav-container');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (navLinks && !navContainer.contains(e.target)) {
+        navLinks.classList.remove('active');
+    }
+});
+
+// Close mobile nav when window is resized to desktop
+window.addEventListener('resize', function() {
+    const navLinks = document.getElementById('navLinks');
+    if (window.innerWidth > 768 && navLinks) {
+        navLinks.classList.remove('active');
+    }
+});
+
+// Check registration status and load event details on page load
+document.addEventListener('DOMContentLoaded', function() {
+    checkRegistrationStatus();
+    loadEventDetails();
+});
+
+async function loadEventDetails() {
+    try {
+        const response = await fetch('/api/current-event');
+        const result = await response.json();
+        
+        if (response.ok && result.event) {
+            const event = result.event;
+            document.getElementById('eventTitle').textContent = event.title + ' Registration';
+            document.getElementById('eventDescription').textContent = event.description;
+            
+            if (event.date) {
+                const eventDate = new Date(event.date);
+                document.getElementById('eventDate').textContent = eventDate.toLocaleString();
+            }
+            
+            if (event.location) {
+                document.getElementById('eventLocation').textContent = event.location;
+            }
+            
+            document.getElementById('eventDetails').style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Load event details error:', error);
+    }
+}
+
+async function checkRegistrationStatus() {
+    try {
+        const response = await fetch('/api/registration-status');
+        const result = await response.json();
+        
+        if (response.ok && !result.isOpen) {
+            showRegistrationClosed();
+        }
+    } catch (error) {
+        console.error('Registration status check error:', error);
+    }
+}
+
+// Dark mode functionality
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    const toggle = document.getElementById('darkModeToggle');
+    
+    if (isDark) {
+        toggle.textContent = '☀️';
+        localStorage.setItem('darkMode', 'true');
+    } else {
+        toggle.textContent = '🌙';
+        localStorage.setItem('darkMode', 'false');
+    }
+}
+
+// Load dark mode preference
+document.addEventListener('DOMContentLoaded', function() {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    const toggle = document.getElementById('darkModeToggle');
+    
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        if (toggle) toggle.textContent = '☀️';
+    }
+});

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GDG AITR Event Registration</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,17 +14,26 @@
                 <img src="images.png" alt="GDG AITR Logo" style="height: 40px; margin-right: 10px;">
                 <span>GDG AITR</span>
             </div>
-            <div class="nav-links">
+            <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="/event" class="nav-link">Event Details</a>
                 <a href="/" class="nav-link active">Register</a>
                 <a href="/admin" class="nav-link">Admin</a>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" id="darkModeToggle">🌙</button>
             </div>
         </div>
     </nav>
 
     <div class="container">
         <div class="header">
-            <h1>GDG AITR Event Registration</h1>
-            <p>Join us for an exciting tech event!</p>
+            <h1 id="eventTitle">GDG AITR Event Registration</h1>
+            <p id="eventDescription">Join us for an exciting tech event!</p>
+            <div id="eventDetails" class="event-details" style="display: none;">
+                <p><strong>📅 Date:</strong> <span id="eventDate"></span></p>
+                <p><strong>📍 Location:</strong> <span id="eventLocation"></span></p>
+            </div>
         </div>
 
         <div id="registration-form" class="form-container">

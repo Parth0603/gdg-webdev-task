@@ -1,81 +1,106 @@
 # GDG AITR Event Registration System
 
-A full-stack event registration system for GDG AITR club activities with student registration forms and admin management dashboard.
+A modern full-stack event registration platform for GDG AITR with comprehensive admin management and dynamic event handling.
 
-## Features
+## ✨ Key Features
 
-- **Student Registration**: Comprehensive form with validation for personal and academic details
-- **Admin Dashboard**: Password-protected access to view and export registration data
-- **Data Export**: CSV export functionality for analysis
-- **Responsive Design**: Works on desktop and mobile devices
-- **Real-time Validation**: Client-side form validation with error handling
+### 🎯 Core Functionality
+- **Dynamic Event Management**: Admin can create, edit, and delete events with details
+- **Smart Registration**: Form adapts to current event with automatic event linking
+- **Registration Control**: Start/stop registration with admin toggle
+- **Mobile-First Design**: Fully responsive across all devices
+- **Dark Mode**: Toggle dark/light theme (except event page)
 
-## Quick Start
+### 👨‍💼 Admin Dashboard
+- **Modern Tabbed Interface**: Overview, Events, Registrations, Settings
+- **Real-time Statistics**: Live registration counts and event info
+- **Data Management**: Export CSV, delete users, clear all data
+- **Event Showcase**: Beautiful event display with management controls
 
-1. **Install Dependencies**: `npm install`
-2. **Start MongoDB**: Ensure MongoDB is running on localhost:27017
-3. **Run Application**: `npm start`
-4. **Access System**: http://localhost:3000
+### 📱 User Experience
+- **Event Details Page**: Dedicated page showcasing event information
+- **Registration Status**: Shows if registration is open/closed
+- **Form Validation**: Real-time validation with error handling
+- **Success Confirmation**: Registration confirmation with event details
 
-## Admin Access
-- URL: http://localhost:3000/admin
-- Password: `gdg-admin`
+## 🚀 Quick Access
+
+- **🎪 Event Details**: `/event` - View current event information
+- **📝 Registration**: `/` - Register for events
+- **👨‍💼 Admin Panel**: `/admin` - Manage events and registrations
+- **🔑 Admin Password**: `gdg-admin`
 
 ## Tech Stack
 
 - **Frontend**: HTML5, CSS3, JavaScript
 - **Backend**: Node.js + Express
 - **Database**: MongoDB + Mongoose
-- **Styling**: Custom CSS with GDG branding
+- **Styling**: Custom CSS  
 
-## API Endpoints
+## 🔌 API Endpoints
 
+### Registration
 - `POST /register` - Submit registration
+- `GET /api/registration-status` - Check if registration is open
+- `POST /api/toggle-registration` - Start/stop registration (admin)
+
+### Event Management
+- `GET /api/current-event` - Get current event details
+- `POST /api/save-event` - Create/update event (admin)
+- `DELETE /api/delete-event` - Delete current event (admin)
+
+### Data Management
 - `GET /api/registrations` - Get all registrations
 - `GET /api/export` - Download CSV export
-- `DELETE /api/clear-data` - Clear all registration data (admin only)
-- `DELETE /api/delete-user/:id` - Delete specific user (admin only)
-- `GET /api/ping` - Keep-alive endpoint for Render deployment
-- `GET /` - Registration form
-- `GET /admin` - Admin dashboard
-- `GET /registered` - Success page
+- `DELETE /api/clear-data` - Clear all data (admin)
+- `DELETE /api/delete-user/:id` - Delete specific user (admin)
 
-## Database Schema
+## 🗄️ Database Schema
 
-Registration fields: name, gender, email, phone, enrollment, college, year, branch, experience, interests, expectations, registeredAt
+### Registration Collection
+`name, gender, email, phone, enrollment, college, year, branch, experience, interests, expectations, eventName, registeredAt`
 
-## Project Structure
+### Event Collection
+`title, description, date, location, createdAt, updatedAt`
+
+### Registration Status Collection
+`isOpen, updatedAt`
+
+## 📁 Project Structure
 
 ```
 gdg-aitr-registration/
-├── server.js                 # Express server and API routes
-├── package.json             # Project dependencies and scripts
-├── package-lock.json        # Dependency lock file
-├── README.md               # Project documentation
-├── start.bat               # Windows startup script
-└── public/                 # Frontend static files
-    ├── index.html          # Main registration form
-    ├── admin.html          # Admin dashboard interface
-    ├── registered.html     # Registration success page
-    ├── register-admin.html # Admin registration page
-    ├── images.png          # GDG AITR logo
-    ├── style.css           # Main stylesheet
-    ├── admin-styles.css    # Admin-specific styles
-    ├── script.js           # Registration form logic
-    └── admin.js            # Admin dashboard functionality
+├── server.js                 # Express server + API routes
+├── package.json             # Dependencies & scripts
+└── public/                 # Frontend files
+    ├── index.html          # Registration form
+    ├── event.html          # Event details page
+    ├── admin.html          # Modern admin dashboard
+    ├── registered.html     # Success page
+    ├── register-admin.html # Admin registration
+    ├── favicon.png         # Site favicon
+    ├── images.png          # GDG logo
+    ├── style.css           # Main styles + responsive
+    ├── admin-styles.css    # Admin dashboard styles
+    ├── script.js           # Registration logic
+    └── admin.js            # Admin functionality
 ```
 
-## Deployment Features
+## 🌟 Recent Updates
 
-- **Keep-Alive System**: Automatic self-ping every 14 minutes to prevent Render free tier from sleeping
-- **Environment Variables**: Secure MongoDB connection using environment variables
-- **Admin Management**: Complete CRUD operations for registration data
+- **🎨 Modern Admin UI**: Redesigned with tabbed interface and better UX
+- **📱 Mobile Optimization**: Enhanced responsive design for all screen sizes
+- **🎪 Event Management**: Complete event lifecycle management
+- **🌙 Dark Mode**: Theme toggle with localStorage persistence
+- **📊 Dashboard Analytics**: Real-time stats and event information
+- **🔄 Registration Control**: Dynamic start/stop functionality
 
-## Troubleshooting
+## 🚀 Deployment
 
-- **MongoDB Error**: Ensure MongoDB is running on port 27017
-- **Port in Use**: Change port in server.js or stop conflicting services
-- **Admin Access**: Use exact password 'gdg-admin'
-- **Render Sleeping**: Keep-alive endpoint prevents automatic sleep on free tier
+- **☁️ Cloud Hosted**: Deployed with MongoDB Atlas
+- **🔄 Auto Keep-Alive**: Prevents service sleeping
+- **🔒 Secure**: Environment variables for database connection
+- **📱 PWA Ready**: Optimized for mobile and desktop
 
-Built for GDG AITR club event management.
+---
+*Built for GDG AITR Web Development Task*

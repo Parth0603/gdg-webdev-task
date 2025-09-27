@@ -25,8 +25,38 @@ function showLogin() {
 function showDashboard() {
     document.getElementById('login-container').style.display = 'none';
     document.getElementById('admin-container').style.display = 'block';
-    document.getElementById('logout-btn').style.display = 'block';
+    loadDashboardData();
+    checkRegistrationStatus();
+}
+
+function loadDashboardData() {
     loadRegistrations();
+    loadEventDisplay();
+}
+
+function showTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Remove active class from all tab buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    
+    // Show selected tab
+    document.getElementById(tabName + '-tab').classList.add('active');
+    
+    // Add active class to clicked button
+    event.target.classList.add('active');
+    
+    // Load data for specific tabs
+    if (tabName === 'registrations') {
+        loadRegistrations();
+    } else if (tabName === 'events') {
+        loadEventDisplay();
+    }
 }
 
 function handleLogin(e) {
@@ -69,7 +99,7 @@ function displayRegistrations(registrations) {
     const tbody = document.getElementById('registrations-body');
     
     if (registrations.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="loading">No registrations found</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" class="loading">No registrations found</td></tr>';
         return;
     }
     
@@ -80,8 +110,9 @@ function displayRegistrations(registrations) {
             <td>${reg.phone}</td>
             <td>${reg.year}</td>
             <td>${reg.branch}</td>
+            <td>${reg.eventName || 'GDG AITR Event'}</td>
             <td>${new Date(reg.registeredAt).toLocaleString()}</td>
-            <td><button onclick="deleteUser('${reg._id}', '${reg.name}')" class="btn btn-reset" style="padding: 6px 12px; font-size: 12px;">Delete</button></td>
+            <td><button onclick="deleteUser('${reg._id}', '${reg.name}')" class="btn btn-danger" style="padding: 4px 8px; font-size: 12px;">Delete</button></td>
         </tr>
     `).join('');
 }
@@ -322,3 +353,235 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// Mobile Navigation Toggle
+function toggleMobileNav() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('active');
+}
+
+// Close mobile nav when clicking outside
+document.addEventListener('click', function(e) {
+    const navContainer = document.querySelector('.nav-container');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (navLinks && !navContainer.contains(e.target)) {
+        navLinks.classList.remove('active');
+    }
+});
+
+// Close mobile nav when window is resized to desktop
+window.addEventListener('resize', function() {
+    const navLinks = document.getElementById('navLinks');
+    if (window.innerWidth > 768 && navLinks) {
+        navLinks.classList.remove('active');
+    }
+});
+
+// Dark mode functionality
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const isDark = document.body.classList.contains('dark-mode');
+    const toggle = document.getElementById('darkModeToggle');
+    
+    if (isDark) {
+        toggle.textContent = '☀️';
+        localStorage.setItem('darkMode', 'true');
+    } else {
+        toggle.textContent = '🌙';
+        localStorage.setItem('darkMode', 'false');
+    }
+}
+
+// Load dark mode preference
+window.addEventListener('load', function() {
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    const toggle = document.getElementById('darkModeToggle');
+    
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        if (toggle) toggle.textContent = '☀️';
+    }
+});
+
+// Registration toggle functions
+async function toggleRegistration() {
+    try {
+        const response = await fetch('/api/toggle-registration', {
+            method: 'POST',
+            headers: {
+                'x-admin-auth': 'true'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showNotification(result.message, 'success');
+            checkRegistrationStatus();
+        } else {
+            showNotification(`Error: ${result.error}`, 'error');
+        }
+    } catch (error) {
+        console.error('Toggle registration error:', error);
+        showNotification('Failed to toggle registration', 'error');
+    }
+}
+
+async function checkRegistrationStatus() {
+    try {
+        const response = await fetch('/api/registration-status', {
+            headers: {
+                'x-admin-auth': 'true'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            const btn = document.getElementById('toggle-registration-btn');
+            if (result.isOpen) {
+                btn.textContent = 'Stop Registration';
+                btn.className = 'btn btn-reset';
+            } else {
+                btn.textContent = 'Start Registration';
+                btn.className = 'btn btn-register';
+            }
+        }
+    } catch (error) {
+        console.error('Check registration status error:', error);
+    }
+}
+
+// Event management functions
+function showEventManager() {
+    loadCurrentEvent();
+    document.getElementById('event-modal').style.display = 'flex';
+}
+
+function closeEventModal() {
+    document.getElementById('event-modal').style.display = 'none';
+}
+
+async function loadCurrentEvent() {
+    try {
+        const response = await fetch('/api/current-event');
+        const result = await response.json();
+        
+        if (response.ok && result.event) {
+            document.getElementById('eventTitle').value = result.event.title || '';
+            document.getElementById('eventDescription').value = result.event.description || '';
+            document.getElementById('eventDate').value = result.event.date || '';
+            document.getElementById('eventLocation').value = result.event.location || '';
+        }
+    } catch (error) {
+        console.error('Load event error:', error);
+    }
+}
+
+async function saveEvent() {
+    const title = document.getElementById('eventTitle').value;
+    const description = document.getElementById('eventDescription').value;
+    const date = document.getElementById('eventDate').value;
+    const location = document.getElementById('eventLocation').value;
+    
+    if (!title || !description || !date || !location) {
+        showNotification('Please fill all fields', 'error');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/save-event', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-admin-auth': 'true'
+            },
+            body: JSON.stringify({ title, description, date, location })
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showNotification('Event saved successfully', 'success');
+            closeEventModal();
+        } else {
+            showNotification(`Error: ${result.error}`, 'error');
+        }
+    } catch (error) {
+        console.error('Save event error:', error);
+        showNotification('Failed to save event', 'error');
+    }
+}
+
+async function loadEventDisplay() {
+    try {
+        const response = await fetch('/api/current-event');
+        const result = await response.json();
+        
+        const deleteBtn = document.getElementById('delete-event-btn');
+        
+        if (response.ok && result.event) {
+            const event = result.event;
+            document.getElementById('display-event-title').textContent = event.title;
+            document.getElementById('display-event-description').textContent = event.description;
+            document.getElementById('display-event-date').textContent = `📅 ${new Date(event.date).toLocaleString()}`;
+            document.getElementById('display-event-location').textContent = `📍 ${event.location}`;
+            
+            // Update overview stats
+            document.getElementById('current-event-name').textContent = event.title;
+            document.getElementById('current-event-date').textContent = new Date(event.date).toLocaleDateString();
+            
+            // Show delete button
+            deleteBtn.style.display = 'inline-block';
+        } else {
+            document.getElementById('display-event-title').textContent = 'No Event Created';
+            document.getElementById('display-event-description').textContent = 'Create an event to get started';
+            document.getElementById('display-event-date').textContent = '📅 Date not set';
+            document.getElementById('display-event-location').textContent = '📍 Location not set';
+            
+            document.getElementById('current-event-name').textContent = 'No Event';
+            document.getElementById('current-event-date').textContent = 'Not Set';
+            
+            // Hide delete button
+            deleteBtn.style.display = 'none';
+        }
+    } catch (error) {
+        console.error('Load event display error:', error);
+    }
+}
+
+function confirmDeleteEvent() {
+    showCustomPopup(
+        '⚠️ Delete Event',
+        'Are you sure you want to delete the current event? This action cannot be undone.',
+        'Delete Event',
+        () => deleteEvent(),
+        false,
+        '',
+        'danger'
+    );
+}
+
+async function deleteEvent() {
+    try {
+        const response = await fetch('/api/delete-event', {
+            method: 'DELETE',
+            headers: {
+                'x-admin-auth': 'true'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            showNotification('Event deleted successfully', 'success');
+            loadEventDisplay();
+        } else {
+            showNotification(`Error: ${result.error}`, 'error');
+        }
+    } catch (error) {
+        console.error('Delete event error:', error);
+        showNotification('Failed to delete event', 'error');
+    }
+}

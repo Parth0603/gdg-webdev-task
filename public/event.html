@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details - GDG AITR</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .event-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .event-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .event-hero h1 {
+            font-size: 3.5em;
+            margin: 0 0 20px 0;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .event-hero p {
+            font-size: 1.4em;
+            margin: 0 0 40px 0;
+            opacity: 0.95;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .event-details-section {
+            background: #f8fafc;
+            padding: 80px 20px;
+        }
+        
+        .event-details-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            color: #1e293b;
+            margin-bottom: 50px;
+            font-weight: 700;
+        }
+        
+        .event-details-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+        
+        .detail-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .detail-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .detail-card .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+            display: block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .detail-card h3 {
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+            color: #1e293b;
+            font-weight: 600;
+        }
+        
+        .detail-card p {
+            margin: 0;
+            color: #64748b;
+            font-size: 1.1em;
+        }
+        
+        .register-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .register-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .register-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .register-section p {
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .register-btn {
+            background: white;
+            color: #667eea;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2em;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            background: #f8fafc;
+        }
+        
+        .register-btn:disabled {
+            background: #94a3b8;
+            color: white;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .closed-notice {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid rgba(239, 68, 68, 0.3);
+            color: #dc2626;
+            padding: 30px;
+            border-radius: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .closed-notice h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.5em;
+        }
+        
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .event-hero {
+                padding: 60px 15px;
+                min-height: 50vh;
+            }
+            
+            .event-hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .event-hero p {
+                font-size: 1.2em;
+            }
+            
+            .section-title {
+                font-size: 2em;
+            }
+            
+            .event-details-section {
+                padding: 60px 15px;
+            }
+            
+            .event-details-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .detail-card {
+                padding: 30px 20px;
+            }
+            
+            .register-section {
+                padding: 60px 15px;
+            }
+            
+            .register-section h2 {
+                font-size: 2em;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .event-hero h1 {
+                font-size: 2em;
+            }
+            
+            .event-hero p {
+                font-size: 1.1em;
+            }
+            
+            .register-btn {
+                padding: 15px 40px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images.png" alt="GDG AITR Logo" style="height: 40px; margin-right: 10px;">
+                <span>GDG AITR</span>
+            </div>
+            <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="/" class="nav-link">Register</a>
+                <a href="/admin" class="nav-link">Admin</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="event-hero">
+        <div class="hero-content">
+            <h1 id="eventTitle">GDG AITR Event</h1>
+            <p id="eventDescription">Join us for an exciting tech event that will transform your development journey!</p>
+        </div>
+    </div>
+
+    <div class="event-details-section">
+        <div class="event-details-container">
+            <h2 class="section-title">Event Details</h2>
+            
+            <div class="event-details-grid">
+                <div class="detail-card">
+                    <span class="icon">📅</span>
+                    <h3>Date & Time</h3>
+                    <p id="eventDateTime">To be announced</p>
+                </div>
+                <div class="detail-card">
+                    <span class="icon">📍</span>
+                    <h3>Location</h3>
+                    <p id="eventLocation">To be announced</p>
+                </div>
+                <div class="detail-card">
+                    <span class="icon">🎯</span>
+                    <h3>Event Type</h3>
+                    <p>Tech Workshop & Networking</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="register-section">
+        <div class="register-content">
+            <h2>Ready to Join Us?</h2>
+            <p>Don't miss out on this amazing opportunity to learn, grow, and network with fellow developers!</p>
+            
+            <div id="registrationStatus">
+                <a href="/" class="register-btn" id="registerBtn">Register Now 🚀</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load event details
+        async function loadEventDetails() {
+            try {
+                const response = await fetch('/api/current-event');
+                const result = await response.json();
+                
+                if (response.ok && result.event) {
+                    const event = result.event;
+                    document.getElementById('eventTitle').textContent = event.title;
+                    document.getElementById('eventDescription').textContent = event.description;
+                    document.getElementById('eventDateTime').textContent = new Date(event.date).toLocaleString();
+                    document.getElementById('eventLocation').textContent = event.location;
+                    document.title = `${event.title} - GDG AITR`;
+                }
+            } catch (error) {
+                console.error('Load event details error:', error);
+            }
+        }
+
+        // Check registration status
+        async function checkRegistrationStatus() {
+            try {
+                const response = await fetch('/api/registration-status');
+                const result = await response.json();
+                
+                if (response.ok && !result.isOpen) {
+                    const statusDiv = document.getElementById('registrationStatus');
+                    statusDiv.innerHTML = `
+                        <div class="closed-notice">
+                            <h3>🚫 Registration Closed</h3>
+                            <p>Registration for this event has been closed. Please check back for future events!</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Registration status check error:', error);
+            }
+        }
+
+        // Mobile navigation
+        function toggleMobileNav() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // Load event details on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEventDetails();
+            checkRegistrationStatus();
+        });
+
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            const navContainer = document.querySelector('.nav-container');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (navLinks && !navContainer.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Close mobile nav when window is resized to desktop
+        window.addEventListener('resize', function() {
+            const navLinks = document.getElementById('navLinks');
+            if (window.innerWidth > 768 && navLinks) {
+                navLinks.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Registration - GDG AITR</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="admin-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -29,9 +30,13 @@
                 <i class="fab fa-google"></i>
                 <span>GDG AITR</span>
             </div>
-            <div class="nav-links">
+            <button class="nav-toggle" onclick="toggleMobileNav()" aria-label="Toggle navigation">
+                ☰
+            </button>
+            <div class="nav-links" id="navLinks">
                 <a href="/" class="nav-link"><i class="fas fa-user-plus"></i> Register</a>
                 <a href="/admin" class="nav-link"><i class="fas fa-shield-alt"></i> Admin</a>
+                <button onclick="toggleDarkMode()" class="dark-mode-toggle" id="darkModeToggle">🌙</button>
             </div>
         </div>
     </nav>
@@ -185,6 +190,54 @@
                 alert('Registration failed');
             }
         });
+        
+        // Mobile Navigation Toggle
+        function toggleMobileNav() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+        
+        // Close mobile nav when clicking outside
+        document.addEventListener('click', function(e) {
+            const navContainer = document.querySelector('.nav-container');
+            const navLinks = document.getElementById('navLinks');
+            
+            if (navLinks && !navContainer.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // Close mobile nav when window is resized to desktop
+        window.addEventListener('resize', function() {
+            const navLinks = document.getElementById('navLinks');
+            if (window.innerWidth > 768 && navLinks) {
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // Dark mode functionality
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            const toggle = document.getElementById('darkModeToggle');
+            
+            if (isDark) {
+                toggle.textContent = '☀️';
+                localStorage.setItem('darkMode', 'true');
+            } else {
+                toggle.textContent = '🌙';
+                localStorage.setItem('darkMode', 'false');
+            }
+        }
+        
+        // Load dark mode preference
+        const isDarkMode = localStorage.getItem('darkMode') === 'true';
+        const toggle = document.getElementById('darkModeToggle');
+        
+        if (isDarkMode) {
+            document.body.classList.add('dark-mode');
+            if (toggle) toggle.textContent = '☀️';
+        }
     </script>
 </body>
 </html>
